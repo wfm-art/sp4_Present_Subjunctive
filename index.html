@@ -1,519 +1,359 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Present Subjunctive: Dynamic Master</title>
+    <title>Expressing Opinions (Personal Constructions)</title>
     
     <style>
         :root {
-            /* Paleta Azul Estándar (Coherencia Suite) */
-            --primary: #007bff;
+            --primary-blue: #007bff;
             --dark-blue: #0056b3;
             --green: #28a745;
             --red: #dc3545;
             --yellow: #f0ad4e;
-            
             --bg-color: #f0f4f8;
             --container-bg: #ffffff;
             --text-color: #333;
-            --header-bg: linear-gradient(135deg, var(--primary), var(--dark-blue));
+            --header-bg: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
             --tab-bg: #f1f1f1;
+            --tab-active-bg: var(--primary-blue);
+            --tab-text: #555;
+            --tab-active-text: #ffffff;
             --border-color: #dee2e6;
             --light-gray-bg: #f8f9fa;
         }
-
-        /* Modo Oscuro */
-        body.dark-mode {
-            --bg-color: #121212;
-            --container-bg: #1e1e1e;
-            --text-color: #e0e0e0;
-            --header-bg: #1e1e1e;
-            --tab-bg: #333;
-            --border-color: #444;
-            --light-gray-bg: #2a2a2a;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: var(--container-bg);
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.07);
-            overflow: hidden;
-            transition: background-color 0.3s;
-        }
-
-        /* Header */
-        header {
-            background: var(--header-bg);
-            color: white;
-            padding: 25px 35px;
-            text-align: center;
-            position: relative;
-        }
-        header h1 { margin: 0; font-size: 2.2em; letter-spacing: -0.5px; }
-        header p { margin: 5px 0 0; opacity: 0.9; font-size: 1.1em; }
-
-        .header-controls {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-        .control-button {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.7);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-        .control-button:hover { background: rgba(255,255,255,0.4); }
-
-        /* Pestaña Visual */
-        .nav-tabs {
-            display: flex;
-            background: var(--tab-bg);
-            border-bottom: 3px solid var(--dark-blue);
-        }
-        .nav-tab {
-            padding: 15px 25px;
-            border: none;
-            background: var(--container-bg);
-            cursor: default;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: var(--primary);
-            border-top: 4px solid var(--primary);
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        /* Main Content */
-        main { padding: 30px; }
-
-        /* Controls Section */
-        .controls-area {
-            background: var(--light-gray-bg);
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+        body.dark-mode { --bg-color: #121212; --container-bg: #1e1e1e; --text-color: #e0e0e0; --header-bg: #1e1e1e; --tab-bg: #333; --tab-active-bg: var(--primary-blue); --tab-text: #bbb; --tab-active-text: #ffffff; --border-color: #444; --light-gray-bg: #2a2a20; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px; transition: background-color 0.3s; }
+        .container { max-width: 950px; margin: 0 auto; background-color: var(--container-bg); border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.07); overflow: hidden; }
+        header { background: var(--header-bg); color: white; padding: 20px 35px; text-align: center; position: relative; }
+        .header-controls { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; }
+        .control-button { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.7); color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .main-tab-nav { display: flex; background-color: var(--tab-bg); border-bottom: 3px solid var(--dark-blue); }
+        .main-tab-nav button { background-color: inherit; border: none; padding: 18px 25px; cursor: pointer; font-size: 1.1em; font-weight: bold; color: var(--tab-text); flex-grow: 1; }
+        .main-tab-nav button.active { background-color: var(--tab-active-bg); color: var(--tab-active-text); }
+        .main-tab-content { display: none; padding: 30px; }
+        .main-tab-content.is-active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        select {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 1em;
-            background-color: var(--container-bg);
-            color: var(--text-color);
-            min-width: 200px;
-        }
-
-        .btn-action {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-        .btn-action:active { transform: scale(0.98); }
+        /* Estilos Específicos */
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .tense-box { background-color: var(--light-gray-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; text-align: center; }
+        .icon-wrapper { font-size: 4.5em; margin-bottom: 15px; display:block; text-align:center; }
+        .formula-visualizer { background-color: var(--light-gray-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; text-align: center; margin-top: 20px; }
+        .formula-part { padding: 8px 12px; border-radius: 5px; background-color: var(--container-bg); border: 1px solid var(--border-color); margin: 0 5px; display: inline-block; font-weight: bold; }
+        .formula-part.subjunctive { background-color: #fff0f0; color: var(--red); border-color: var(--red); }
+        .formula-part.infinitive { background-color: #f0fff0; color: var(--green); border-color: var(--green); }
         
-        .btn-hide { background-color: var(--text-color); color: var(--bg-color); border: 1px solid var(--text-color); }
-        .btn-show { background-color: var(--primary); color: white; }
+        /* Video */
+        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #000; margin-top: 20px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
+        /* Práctica */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .refresh-btn { font-size: 0.9em; padding: 5px 10px; background-color: var(--primary-blue); color: white; border:none; border-radius: 4px; cursor: pointer; }
+        .quiz-question { margin-bottom: 20px; background: var(--light-gray-bg); padding: 15px; border-radius: 5px; }
+        .quiz-question button { background-color: var(--container-bg); border: 1px solid var(--primary-blue); color: var(--primary-blue); padding: 8px 15px; margin-right: 10px; border-radius: 5px; cursor: pointer; margin-top: 5px; }
+        .quiz-question button:hover { background-color: var(--primary-blue); color: white; }
+        .feedback { font-weight: bold; margin-left: 10px; }
+        .correct { color: var(--green); } .incorrect { color: var(--red); }
+        .explanation-text { font-size: 0.9em; color: #555; margin-top: 10px; padding: 8px; background: #e9ecef; border-radius: 4px; }
 
-        /* Verb Card Styling */
-        .verb-card {
-            background: var(--container-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 20px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .verb-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-            border-color: var(--primary);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--light-gray-bg);
-            padding-bottom: 10px;
-        }
-        .verb-title {
-            font-size: 1.4em;
-            font-weight: bold;
-            color: var(--primary);
-            text-transform: capitalize;
-        }
-        .verb-tag {
-            font-size: 0.8em;
-            background: var(--light-gray-bg);
-            color: #666;
-            padding: 4px 8px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        /* Table Styling */
-        table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
-        td { padding: 8px 5px; border-bottom: 1px solid var(--light-gray-bg); }
-        tr:last-child td { border-bottom: none; }
+        .interactive-story { background: #fdfaf6; border: 1px solid var(--yellow); padding: 20px; border-radius: 8px; line-height: 2; font-size: 1.1em; }
+        .interactive-story select { font-size: 1em; padding: 2px 5px; }
         
-        .pronoun { color: #888; width: 45%; font-size: 0.9em; }
-        .form { font-weight: bold; color: var(--text-color); cursor: pointer;}
-        .form.hidden-form { color: var(--primary); background-color: rgba(0,123,255,0.1); padding: 2px 5px; border-radius: 4px; }
+        .sorter-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .dropzone { min-height: 200px; background: var(--light-gray-bg); border: 3px dashed var(--border-color); border-radius: 8px; padding: 10px; }
+        .draggable { background-color: var(--container-bg); border: 1px solid #ccc; padding: 10px; margin-bottom: 8px; border-radius: 5px; cursor: grab; }
+        #items-to-sort { margin-top: 20px; padding: 10px; background: var(--tab-bg); border-radius: 8px; min-height: 60px; }
+
+        /* Flashcards */
+        .flashcard-container { width: 90%; max-width: 500px; height: 300px; perspective: 1000px; margin: 0 auto 20px; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 10px; }
+        .flashcard.is-flipped { transform: rotateY(180deg); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; font-size: 1.5em; border-radius: 10px; background: var(--container-bg); border: 2px solid var(--primary-blue); }
+        .card-back { background: var(--light-gray-bg); border-color: var(--green); transform: rotateY(180deg); }
+        .flashcard-nav { display: flex; justify-content: center; gap: 20px; }
+
+        .tts-icon { font-size: 1.1em; cursor: pointer; margin-left: 8px; }
         
-        .stem-change { color: var(--red); }
-
-        /* Chip Row */
-        .chip-row {
-            margin-top: 15px;
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-        .chip {
-            background: #e3f2fd;
-            color: var(--dark-blue);
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.85em;
-            font-weight: bold;
-        }
-        body.dark-mode .chip { background: #2c3e50; color: #aab7c4; }
-
-        /* Audio Icon */
-        .tts-icon {
-            font-size: 1em;
-            cursor: pointer;
-            margin-left: 8px;
-            opacity: 0.7;
-            transition: opacity 0.2s, transform 0.2s;
-        }
-        .tts-icon:hover { opacity: 1; transform: scale(1.2); }
-        
-        .hint-text {
-            text-align: center;
-            margin-top: 30px;
-            color: #777;
-            font-style: italic;
-            font-size: 0.9em;
-        }
-
+        /* REPORT FOOTER */
+        footer { background: #333; color: white; padding: 20px; text-align: center; margin-top: 0; }
+        .report-box { background: #444; padding: 15px; border-radius: 8px; display: inline-block; margin-top: 10px; max-width: 80%; word-break: break-all; }
+        .btn-finish { background: var(--green); color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 5px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <div class="header-controls">
-                <button class="control-button" onclick="toggleLang()">EN / ES</button>
-                <button class="control-button" onclick="toggleTheme()">☀️/🌙</button>
+<div class="container">
+    <header>
+        <div class="header-controls">
+            <button class="control-button" onclick="toggleTheme()">☀️/🌙</button>
+        </div>
+        <h1>Expressing Opinions</h1>
+        <p>Personal Constructions (Parece bien/mal...)</p>
+    </header>
+    
+    <nav class="main-tab-nav">
+        <button class="main-tab-link active" onclick="changeMainTab(event, 'tab-metaphor')">👤=👤 vs. 👤≠👥 The Rule</button>
+        <button class="main-tab-link" onclick="changeMainTab(event, 'tab-practice')">🧠 Interactive Practice</button>
+        <button class="main-tab-link" onclick="changeMainTab(event, 'tab-flashcards')">📇 Flashcards</button>
+    </nav>
+
+    <main>
+        <div id="tab-metaphor" class="main-tab-content is-active">
+            <div class="comparison-grid">
+                <div class="tense-box">
+                    <div class="icon-wrapper" style="color: var(--green);"><span>👤=👤</span></div>
+                    <h3 style="color: var(--green);">Infinitive (Same Subject)</h3>
+                    <p>"Me parece bien <strong>hablar</strong>."</p>
+                </div>
+                <div class="tense-box">
+                    <div class="icon-wrapper" style="color: var(--red);"><span>👤≠👥</span></div>
+                    <h3 style="color: var(--red);">Subjunctive (Diff Subject)</h3>
+                    <p>"Me parece bien que <strong>hables</strong>."</p>
+                </div>
             </div>
-            <h1 id="app-title">Presente del Subjuntivo</h1>
-            <p id="app-subtitle">Activity 16: Dynamic Verb Practice</p>
-        </header>
-        
-        <div class="nav-tabs">
-            <div class="nav-tab">✍️ Práctica Interactiva</div>
+            
+            <h3 style="margin-top: 30px;">Video Tutorial</h3>
+            <div class="video-container">
+                <iframe src="https://drive.google.com/file/d/1Ez-tCYUf3rnTImlgoRKYdsewhWE9iOzN/preview" allow="autoplay"></iframe>
+            </div>
+
+            <h3 style="margin-top: 30px;">Interactive Formula</h3>
+            <div class="formula-visualizer">
+                <label class="switch">
+                    <input type="checkbox" id="que-toggle" onchange="toggleFormula()"> Switch
+                </label>
+                <div class="formula-display" style="margin-top:10px; font-size:1.3em;">
+                    <span class="formula-part">A mí me parece bien...</span>
+                    <span class="formula-part" id="formula-que" style="display: none;">que</span>
+                    <span class="formula-part infinitive" id="formula-result"><strong>participar</strong>.</span>
+                </div>
+            </div>
         </div>
 
-        <main>
-            <div class="controls-area">
-                <div style="flex-grow: 1; text-align: center;">
-                    <label style="font-weight:bold; margin-right:10px;" id="lbl-filter">Filtrar Verbo:</label>
-                    <select id="verbSelect">
-                        <option value="all">Todos (All)</option>
-                        </select>
+        <div id="tab-practice" class="main-tab-content">
+            <div class="quiz-section">
+                <div class="section-header">
+                    <h3>Part 1: Quick Quiz</h3>
+                    <button id="generate-quiz" class="refresh-btn">New Quiz</button>
                 </div>
-                <div>
-                    <button id="hideBtn" class="btn-action btn-hide">👁️ Ocultar (Hide)</button>
-                    <button id="showBtn" class="btn-action btn-show">👁️ Mostrar (Show)</button>
-                </div>
+                <div id="quiz-container"></div>
             </div>
 
-            <div class="cards-grid" id="cardsContainer"></div>
+            <div class="quiz-section">
+                <div class="section-header">
+                    <h3>Part 2: Story</h3>
+                    <button id="generate-story" class="refresh-btn">New Story</button>
+                </div>
+                <div id="story-container" class="interactive-story"></div>
+                <button onclick="checkStory()" class="button-primary" style="margin-top:15px;">Check Story</button>
+            </div>
 
-            <p class="hint-text" id="app-hint">
-                Tip: Click "Hide", try to pronounce it, then click 🔊 to check.
-            </p>
-        </main>
-    </div>
+            <div class="quiz-section">
+                <div class="section-header">
+                    <h3>Part 3: Sorter</h3>
+                    <button id="generate-drag" class="refresh-btn">New Sorter</button>
+                </div>
+                <div id="items-to-sort"></div>
+                <div class="sorter-container">
+                    <div class="dropzone" id="zone-infinitive"><h4>Infinitive (Same Subject)</h4></div>
+                    <div class="dropzone" id="zone-subjunctive"><h4>Subjunctive (Diff Subject)</h4></div>
+                </div>
+                <button onclick="checkDrag()" class="button-primary" style="margin-top:15px;">Check Sorter</button>
+                <div id="drag-feedback" class="feedback"></div>
+            </div>
+        </div>
+
+        <div id="tab-flashcards" class="main-tab-content">
+            <div class="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="card-face card-front" id="fc-front"></div>
+                    <div class="card-face card-back" id="fc-back"></div>
+                </div>
+            </div>
+            <div class="flashcard-nav">
+                <button class="control-button" onclick="prevCard()">Prev</button>
+                <button class="control-button" onclick="flipCard()">Flip</button>
+                <button class="control-button" onclick="nextCard()">Next</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <h3 style="color:white; border:none;">Finalizar Práctica</h3>
+        <p>Cuando termines, haz clic aquí para generar tu código de validación.</p>
+        <button class="btn-finish" onclick="generateReportCode()">🏁 Terminar y Generar Código</button>
+        
+        <div id="report-display" style="display:none; margin-top:20px;">
+            <p>Copia este código y pégalo en Blackboard:</p>
+            <div class="report-box" id="report-code" style="font-family:monospace; color:#ffc107;"></div>
+        </div>
+    </footer>
+</div>
 
 <script>
-    
-    // ======================================================
-    // 🟢 ZONA DE EDICIÓN DEL PROFESOR
-    // Aquí agregas tus verbos. 
-    // Si es REGULAR, solo pon 'auto: true'.
-    // Si es IRREGULAR, llena el array 'forms' con las 6 formas.
-    // ======================================================
-    
-    const verbDatabase = [
-        {
-            verb: "tener",
-            tag: "Irregular (yo-go)",
-            auto: false, // Es irregular, definimos las formas
-            forms: ["tenga", "tengas", "tenga", "tengamos", "tengáis", "tengan"]
-        },
-        {
-            verb: "desaparecer",
-            tag: "-ZC (desaparezco)",
-            auto: false,
-            forms: ["desaparezca", "desaparezcas", "desaparezca", "desaparezcamos", "desaparezcáis", "desaparezcan"]
-        },
-        {
-            verb: "decidir",
-            tag: "Regular -IR",
-            auto: true // ¡Magia! Se conjuga solo
-        },
-        {
-            verb: "cuestionar",
-            tag: "Regular -AR",
-            auto: true // ¡Magia!
-        },
-        {
-            verb: "hablar", // Nuevo que pediste
-            tag: "Regular -AR",
-            auto: true // ¡Magia!
-        },
-        {
-            verb: "aprender", // Nuevo que pediste
-            tag: "Regular -ER",
-            auto: true // ¡Magia!
-        },
-        {
-            verb: "hacer",
-            tag: "Irregular (yo-go)",
-            auto: false,
-            forms: ["haga", "hagas", "haga", "hagamos", "hagáis", "hagan"]
-        },
-        {
-            verb: "ver",
-            tag: "Irregular (veo)",
-            auto: false,
-            forms: ["vea", "veas", "vea", "veamos", "veáis", "vean"]
-        },
-        {
-            verb: "sentirse",
-            tag: "Cambio (e -> ie)",
-            auto: false,
-            forms: ["me sienta", "te sientas", "se sienta", "nos sintamos", "os sintáis", "se sientan"]
-        },
-        {
-            verb: "venir", // Nuevo
-            tag: "Irregular (vengo)",
-            auto: false,
-            forms: ["venga", "vengas", "venga", "vengamos", "vengáis", "vengan"]
-        },
-        {
-            verb: "reconocer", // Nuevo
-            tag: "-ZC (reconozco)",
-            auto: false,
-            forms: ["reconozca", "reconozcas", "reconozca", "reconozcamos", "reconozcáis", "reconozcan"]
-        },
-        {
-            verb: "mostrarse", // Nuevo
-            tag: "Reflexivo (o -> ue)",
-            auto: false,
-            forms: ["me muestre", "te muestres", "se muestre", "nos mostremos", "os mostréis", "se muestren"]
-        },
-        {
-            verb: "saber", // Nuevo
-            tag: "Totalmente Irregular",
-            auto: false,
-            forms: ["sepa", "sepas", "sepa", "sepamos", "sepáis", "sepan"]
-        },
-        {
-            verb: "transmitir", // Nuevo
-            tag: "Regular -IR",
-            auto: true // Magia
-        }
-    ];
+// --- TRACKING SYSTEM ---
+let sessionLog = {
+    start: new Date().toISOString(),
+    quizCorrect: 0,
+    quizTotal: 0,
+    storyAttempts: 0,
+    dragCorrect: 0,
+    errors: []
+};
 
-    // ======================================================
-    // ⚙️ MOTOR DEL SISTEMA (NO NECESITAS TOCAR ABAJO)
-    // ======================================================
+function logError(section, detail) {
+    sessionLog.errors.push(`[${section}] ${detail}`);
+}
 
-    // 1. Conjugador Automático para Regulares
-    function conjugateRegular(verb) {
-        const ending = verb.slice(-2);
-        const stem = verb.slice(0, -2);
-        
-        if (ending === "ar") {
-            return [stem + "e", stem + "es", stem + "e", stem + "emos", stem + "éis", stem + "en"];
-        } else if (ending === "er" || ending === "ir") {
-            return [stem + "a", stem + "as", stem + "a", stem + "amos", stem + "áis", stem + "an"];
-        }
-        return ["error", "error", "error", "error", "error", "error"];
-    }
+// --- DATA ---
+const quizBank = [
+    { q: "Me parece bien (ir) al cine.", a: ["ir", "vaya"], c: 0, e: "Same subject -> Infinitive" },
+    { q: "Me parece bien que tú (ir).", a: ["ir", "vayas"], c: 1, e: "Diff subject -> Subjunctive" },
+    { q: "Nos molesta (esperar).", a: ["esperar", "esperemos"], c: 0, e: "Same subject -> Infinitive" },
+    { q: "Nos molesta que ellos (esperar).", a: ["esperar", "esperen"], c: 1, e: "Diff subject -> Subjunctive" },
+    { q: "Le importa (estudiar).", a: ["estudiar", "estudie"], c: 0, e: "Same subject -> Infinitive" },
+    { q: "Le importa que yo (estudiar).", a: ["estudiar", "estudie"], c: 1, e: "Diff subject -> Subjunctive" },
+    { q: "Te sorprende (ver) esto.", a: ["ver", "veas"], c: 0, e: "Same subject -> Infinitive" },
+    { q: "Te sorprende que yo (ver).", a: ["ver", "vea"], c: 1, e: "Diff subject -> Subjunctive" }
+];
+const storyBank = [
+    { html: `<span>A mí me hace ilusión</span> <select data-a="c"><option value="c">aprender</option><option value="w">aprenda</option></select> <span>quechua. Pero a mis padres les parece mal que yo</span> <select data-a="s"><option value="s">estudie</option><option value="i">estudiar</option></select> <span>una lengua indígena.` }
+];
+const dragBank = [
+    { t: "Me parece bien <strong>comer</strong>.", cat: "infinitive" },
+    { t: "Me parece bien que <strong>comas</strong>.", cat: "subjunctive" },
+    { t: "Nos molesta <strong>esperar</strong>.", cat: "infinitive" },
+    { t: "Nos molesta que <strong>esperen</strong>.", cat: "subjunctive" }
+];
+const flashcards = [
+    { f: "It seems good to me to help.", b: "Me parece bien <strong>ayudar</strong>." },
+    { f: "It seems good to me that you help.", b: "Me parece bien que <strong>ayudes</strong>." }
+];
 
-    // 2. Generador de HTML
-    function renderApp() {
-        const container = document.getElementById('cardsContainer');
-        const select = document.getElementById('verbSelect');
-        
-        container.innerHTML = ""; // Limpiar
-        
-        // Llenar Select y Tarjetas
-        verbDatabase.forEach(item => {
-            // 1. Añadir al Select
-            const option = document.createElement('option');
-            option.value = item.verb;
-            option.textContent = item.verb.charAt(0).toUpperCase() + item.verb.slice(1);
-            select.appendChild(option);
+// --- LOGIC ---
+document.addEventListener('DOMContentLoaded', () => {
+    window.changeMainTab = (e, id) => {
+        document.querySelectorAll('.main-tab-content').forEach(el => el.classList.remove('is-active'));
+        document.querySelectorAll('.main-tab-link').forEach(el => el.classList.remove('active'));
+        document.getElementById(id).classList.add('is-active');
+        e.currentTarget.classList.add('active');
+    };
 
-            // 2. Calcular Formas
-            let forms = item.auto ? conjugateRegular(item.verb) : item.forms;
+    // Visualizer
+    window.toggleFormula = () => {
+        const chk = document.getElementById('que-toggle').checked;
+        document.getElementById('formula-que').style.display = chk ? 'inline-block' : 'none';
+        const res = document.getElementById('formula-result');
+        res.innerHTML = chk ? '<strong>participes</strong>.' : '<strong>participar</strong>.';
+        res.className = chk ? 'formula-part subjunctive' : 'formula-part infinitive';
+    };
 
-            // 3. Crear HTML de la Tarjeta
-            const cardHTML = `
-                <div class="verb-card" data-verb="${item.verb}">
-                    <div class="card-header">
-                        <span class="verb-title">${item.verb}</span>
-                        <span class="verb-tag">${item.tag}</span>
-                    </div>
-                    <table>
-                        ${createRow('yo', forms[0])}
-                        ${createRow('tú', forms[1])}
-                        ${createRow('él/ella/Ud.', forms[2])}
-                        ${createRow('nosotros', forms[3])}
-                        ${createRow('vosotros', forms[4])}
-                        ${createRow('ellos/Uds.', forms[5])}
-                    </table>
-                    <div class="chip-row">
-                        <span class="chip">que ${forms[0]}</span>
-                        <span class="chip">que ${forms[5]}</span>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += cardHTML;
+    // Quiz
+    window.generateQuiz = () => {
+        const c = document.getElementById('quiz-container');
+        c.innerHTML = '';
+        quizBank.sort(()=>0.5-Math.random()).slice(0,4).forEach((q,i) => {
+            c.innerHTML += `<div class="quiz-question"><p>${i+1}. ${q.q} <span class="tts-icon" onclick="speak('${q.q}')">🔊</span></p>
+            <button onclick="checkQ(this, ${q.c===0}, '${q.q}')">${q.a[0]}</button>
+            <button onclick="checkQ(this, ${q.c===1}, '${q.q}')">${q.a[1]}</button>
+            <div class="explanation-text" style="display:none">${q.e}</div></div>`;
         });
-    }
+    };
+    window.checkQ = (btn, isC, txt) => {
+        const p = btn.parentElement;
+        p.querySelector('.explanation-text').style.display = 'block';
+        if(isC) { 
+            btn.style.background = "var(--green)"; sessionLog.quizCorrect++; 
+        } else { 
+            btn.style.background = "var(--red)"; logError("Quiz", txt); 
+        }
+        sessionLog.quizTotal++;
+    };
 
-    function createRow(pronoun, form) {
-        return `<tr>
-                    <td class="pronoun">${pronoun}</td>
-                    <td class="form" onclick="speak('${form}')">${form} <span class="tts-icon">🔊</span></td>
-                </tr>`;
-    }
+    // Story
+    window.generateStory = () => {
+        document.getElementById('story-container').innerHTML = storyBank[0].html;
+    };
+    window.checkStory = () => {
+        sessionLog.storyAttempts++;
+        document.querySelectorAll('select').forEach(s => {
+            if((s.value === 'c' && s.dataset.a === 'c') || (s.value === 's' && s.dataset.a === 's')) s.style.border = "2px solid green";
+            else { s.style.border = "2px solid red"; logError("Story", "Selection error"); }
+        });
+    };
 
-    // --- UI Interactions ---
-
-    document.addEventListener('DOMContentLoaded', () => {
-        renderApp(); // Inicializar todo
-        setupFilters();
+    // Drag
+    window.generateDrag = () => {
+        const p = document.getElementById('items-to-sort');
+        p.innerHTML = '';
+        dragBank.forEach(i => {
+            const d = document.createElement('div');
+            d.className = 'draggable'; d.draggable = true;
+            d.innerHTML = i.t; d.dataset.cat = i.cat;
+            d.addEventListener('dragstart', e => { e.dataTransfer.setData('c', i.cat); e.target.classList.add('dragging'); });
+            d.addEventListener('touchstart', touchStart, {passive:false});
+            p.appendChild(d);
+        });
+    };
+    
+    // Touch Logic (iPad)
+    let tDrag = null;
+    function touchStart(e) { tDrag = e.target; e.preventDefault(); }
+    document.addEventListener('touchmove', e => { if(tDrag) { tDrag.style.position='fixed'; tDrag.style.left=e.touches[0].clientX+'px'; tDrag.style.top=e.touches[0].clientY+'px'; } }, {passive:false});
+    document.addEventListener('touchend', e => {
+        if(!tDrag) return;
+        const drop = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY).closest('.dropzone');
+        if(drop && drop.id.includes(tDrag.dataset.cat)) { drop.appendChild(tDrag); tDrag.style.position=''; sessionLog.dragCorrect++; }
+        tDrag = null;
     });
 
-    function setupFilters() {
-        const select = document.getElementById('verbSelect');
-        
-        select.addEventListener('change', () => {
-            const val = select.value;
-            document.querySelectorAll('.verb-card').forEach(card => {
-                if(val === 'all' || card.dataset.verb === val) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    document.querySelectorAll('.dropzone').forEach(z => {
+        z.addEventListener('dragover', e => e.preventDefault());
+        z.addEventListener('drop', e => {
+            e.preventDefault();
+            const cat = e.dataTransfer.getData('c');
+            const d = document.querySelector('.dragging');
+            if(z.id.includes(cat)) { z.appendChild(d); sessionLog.dragCorrect++; }
+            else { logError("Drag", d.textContent); }
+            d.classList.remove('dragging');
         });
+    });
 
-        document.getElementById('hideBtn').addEventListener('click', () => {
-            document.querySelectorAll('.form').forEach(td => {
-                if(!td.dataset.original) {
-                    // Guardar texto original (sin el icono)
-                    td.dataset.original = td.innerText.replace('🔊', '').trim();
-                }
-                td.innerHTML = `________ <span class="tts-icon">🔊</span>`;
-                td.classList.add('hidden-form');
-            });
-        });
-
-        document.getElementById('showBtn').addEventListener('click', () => {
-            document.querySelectorAll('.form').forEach(td => {
-                if(td.dataset.original) {
-                    td.innerHTML = `${td.dataset.original} <span class="tts-icon">🔊</span>`;
-                }
-                td.classList.remove('hidden-form');
-            });
-        });
+    // Flashcards
+    let cIdx = 0;
+    function loadCard() {
+        const d = flashcards[cIdx];
+        document.getElementById('fc-front').innerText = d.f;
+        document.getElementById('fc-back').innerHTML = `${d.b} <span class="tts-icon" onclick="event.stopPropagation(); speak('${d.b.replace(/<[^>]*>/g, '')}')">🔊</span>`;
+        document.getElementById('flashcard').classList.remove('is-flipped');
     }
-
-    // --- Audio & Theme Engines (Reutilizados de la Suite) ---
-
-    function speak(txt) {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(txt);
-        u.lang = 'es-ES';
-        const voices = window.speechSynthesis.getVoices();
-        // Priorizar voces premium (Google, Microsoft)
-        const v = voices.find(voice => voice.name.includes('Google') && voice.lang.includes('es')) || 
-                  voices.find(voice => voice.lang.includes('es'));
-        if(v) u.voice = v;
-        window.speechSynthesis.speak(u);
-    }
-
-    function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-    }
-
-    const uiStrings = {
-        en: { title: "Present Subjunctive", subtitle: "Activity 16: Dynamic Verb Practice", filter: "Filter Verb:", hide: "👁️ Hide Forms", show: "👁️ Show Forms", hint: "Tip: Click 'Hide', try to pronounce it, then click 🔊 to check." },
-        es: { title: "Presente del Subjuntivo", subtitle: "Actividad 16: Práctica Dinámica", filter: "Filtrar Verbo:", hide: "👁️ Ocultar Formas", show: "👁️ Mostrar Formas", hint: "Tip: Haz clic en 'Ocultar', intenta pronunciarlo y luego haz clic en 🔊 para verificar." }
+    window.flipCard = () => document.getElementById('flashcard').classList.toggle('is-flipped');
+    window.nextCard = () => { cIdx=(cIdx+1)%flashcards.length; loadCard(); };
+    window.prevCard = () => { cIdx=(cIdx-1+flashcards.length)%flashcards.length; loadCard(); };
+    
+    // REPORT GENERATOR (ENCRYPTION TRICK)
+    window.generateReportCode = () => {
+        const data = JSON.stringify(sessionLog);
+        // Simple Base64 encoding to obfuscate (hide) the data
+        const code = btoa(data); 
+        document.getElementById('report-display').style.display = 'block';
+        document.getElementById('report-code').innerText = code;
     };
-    let currentLang = 'es';
 
-    function toggleLang() {
-        currentLang = currentLang === 'es' ? 'en' : 'es';
-        const t = uiStrings[currentLang];
-        document.getElementById('app-title').textContent = t.title;
-        document.getElementById('app-subtitle').textContent = t.subtitle;
-        document.getElementById('lbl-filter').textContent = t.filter;
-        document.getElementById('hideBtn').textContent = t.hide;
-        document.getElementById('showBtn').textContent = t.show;
-        document.getElementById('app-hint').textContent = t.hint;
-    }
+    // Utils
+    window.speak = (t) => {
+        const u = new SpeechSynthesisUtterance(t);
+        u.lang = 'es-ES';
+        window.speechSynthesis.speak(u);
+    };
+    window.toggleTheme = () => document.body.classList.toggle('dark-mode');
 
-    window.speechSynthesis.onvoiceschanged = () => {}; 
-
+    // Init
+    generateQuiz(); generateStory(); generateDrag(); loadCard();
+});
 </script>
 </body>
 </html>
